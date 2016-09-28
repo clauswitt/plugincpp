@@ -17,12 +17,4 @@ class MyPlugin : public Plugin {
 
 };
 
-extern "C" Plugin* load()
-{
-  return new MyPlugin;
-}
-
-extern "C" void unload( Plugin* object )
-{
-  delete object;
-}
+DEFINE_PLUGIN(MyPlugin, "Second Plugin", "0.0.1")
