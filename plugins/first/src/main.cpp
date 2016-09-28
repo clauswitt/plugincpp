@@ -10,8 +10,14 @@ class MyPlugin : public Plugin {
 
     }
 
+    std::string get_value() {
+
+      return "THIS IS INTERNAL TO THE PLUGIN";
+    
+    }
+
     virtual std::string command(std::string command, std::string options) {
-      return "OK";
+      return get_value();
     }
 
 
