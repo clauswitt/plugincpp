@@ -23,8 +23,11 @@ int main(int argc, char *argv[])
 {
   auto plugins = load_plugins();
   for (auto ph : plugins) {
-    ph.load();
+    auto plugin = ph.load();
     std::cerr << "Auto loaded plugin: " << ph.get_name() << ", version: " << ph.get_version() << std::endl;
+    std::cerr << "Running plugins command method: " << std::endl;
+    std::cerr << plugin->command("Command here", "options here") << std::endl;
+
   }
    return 0;
 }

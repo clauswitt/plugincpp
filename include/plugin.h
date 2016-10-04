@@ -1,24 +1,19 @@
 #ifndef PLUGIN
-#define PLUGIN value
+#define PLUGIN 1
 #include <string>
 class Plugin {
   public:
     Plugin() {};
     virtual ~Plugin() {};
-    virtual std::string command(std::string command, std::string options) {return "";};
+    virtual std::string command(std::string command, std::string options) {return "";}
 };
 
 
 #define DEFINE_PLUGIN(classType, pluginName, pluginVersion)     \
   extern "C" {                                                  \
-    Plugin* load()                                              \
+    std::shared_ptr<Plugin> load()                                         \
     {                                                           \
-      return new classType;                                     \
-    }                                                           \
-                                                                \
-    void unload( Plugin* object )                               \
-    {                                                           \
-      delete object;                                            \
+      return std::make_shared<classType>();                     \
     }                                                           \
                                                                 \
     const char* name()                                          \

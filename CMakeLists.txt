@@ -2,7 +2,7 @@
 #Change this if you need to target a specific CMake version
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(plugincpp)
-
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Enable debug symbols by default
 if(CMAKE_BUILD_TYPE STREQUAL "")
   set(CMAKE_BUILD_TYPE Debug)

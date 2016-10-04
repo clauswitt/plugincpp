@@ -1,20 +1,17 @@
 #include <dlfcn.h>
 #include <plugin.h>
 class PluginHandler {
-  Plugin* (*_load)();
-  void (*_unload)(Plugin*);
+  std::shared_ptr<Plugin> (*_load)();
   void* handle;
   char* (*_get_name)();
   char* (*_get_version)();
 
-  Plugin* instance;
+  std::shared_ptr<Plugin> instance;
   public:
 
   PluginHandler(std::string name) {
-    instance = nullptr;
     handle = dlopen(name.c_str(), RTLD_LAZY);
-    _load = (Plugin* (*)())dlsym(handle, "load");
-    _unload = (void (*)(Plugin*))dlsym(handle, "unload");
+    _load = (std::shared_ptr<Plugin> (*)())dlsym(handle, "load");
     _get_name = (char* (*)())dlsym(handle, "name");
     _get_version = (char* (*)())dlsym(handle, "version");
   }
@@ -27,15 +24,10 @@ class PluginHandler {
     return std::string(_get_version());
   }
 
-  Plugin* load() {
-    if(instance==nullptr)
+  std::shared_ptr<Plugin> load() {
+    if(!instance)
       instance = _load();
     return instance;
-  }
-
-  ~PluginHandler() {
-    if(instance!=nullptr)
-      _unload(instance);
   }
 
 };
